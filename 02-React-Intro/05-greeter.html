@@ -18,7 +18,7 @@
 			state = { message : '', userName : ''};
 
 			onGreetClick = () => {
-				let greetMessage = `Hi ${this.state.userName}, Have a nice day!`;
+				let greetMessage = `Hi ${this.state.userName}, ${this.props.msg}`;
 				this.setState({message : greetMessage});
 			}
 
@@ -36,7 +36,12 @@
 			}
 		}
 
-		ReactDOM.render(<Greeter/>,
+		ReactDOM.render(
+			<div>
+				<Greeter msg="Have a nice day!" xyz="100" abc="200"/>
+				<hr/>
+				<Greeter msg="Have a good day!"/>
+			</div>,
 			document.getElementById('root'));
 	</script>
 </head>
