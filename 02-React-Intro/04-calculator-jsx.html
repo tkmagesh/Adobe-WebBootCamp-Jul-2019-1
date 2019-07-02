@@ -10,20 +10,30 @@
 
 		class Calculator extends React.Component{
 			
-			txtNumber1Ref = React.createRef();
-			state= { result : 0 };
+			
+			state= { result : 0, n1 : 0, n2 : 0 };
 
+			setN1 = (x) => {
+				var n1 = x.target.valueAsNumber;
+				this.setState({ n1 : n1 });
+			}
+
+			setN2 = (evt) => {
+				var n2 = evt.target.valueAsNumber;
+				this.setState({ n2 : n2 });
+			}
 			onBtnAddClick = () => {
-				var n1 = this.txtNumber1Ref.current.valueAsNumber;
-				this.setState({ result : n1 });
+				let {n1, n2} = this.state,
+					result = n1 + n2;
+				this.setState({ result : result });
 			}
 			render = () => {
 				return (
 					<div>
 						<h1>Calculator</h1>
 						<hr/>
-						<input type="number" ref={this.txtNumber1Ref}/>
-						<input type="number"/>
+						<input type="number" onChange={this.setN1}/>
+						<input type="number" onChange={this.setN2}/>
 						<br/>
 						<input type="button" value="Add" onClick={this.onBtnAddClick}/>
 						<input type="button" value="Subtract"/>
