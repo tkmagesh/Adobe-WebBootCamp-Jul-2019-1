@@ -3,7 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Click Counter</title>
-
+	<script>
+		(function myApp(){
+			window.addEventListener('load', onLoad);
+			function onLoad(){
+				var btnTrack = document.getElementById('btnTrack');
+				btnTrack.addEventListener('click', onBtnTrackClick);
+			}
+			var counter = 0;
+			function onBtnTrackClick(){
+				document.getElementById('divCount').innerHTML = ++counter;
+			}
+		})();
+		//myApp();
+	</script>
 </head>
 <body>
 	<h1>Click Counter</h1>
