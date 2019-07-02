@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+
+		class Calculator extends React.Component{
+			
+			txtNumber1Ref = React.createRef();
+			state= { result : 0 };
+
+			onBtnAddClick = () => {
+				var n1 = this.txtNumber1Ref.current.valueAsNumber;
+				this.setState({ result : n1 });
+			}
+			render = () => {
+				return (
+					<div>
+						<h1>Calculator</h1>
+						<hr/>
+						<input type="number" ref={this.txtNumber1Ref}/>
+						<input type="number"/>
+						<br/>
+						<input type="button" value="Add" onClick={this.onBtnAddClick}/>
+						<input type="button" value="Subtract"/>
+						<input type="button" value="Multiply"/>
+						<input type="button" value="Divide"/>
+						<div id="divResult">{this.state.result}</div>
+					</div>
+				);
+			}
+		}
+
+		ReactDOM.render(React.createElement(Calculator),
+			document.getElementById('root'));
+
+		{/*window.addEventListener('load', onLoad);
+
+		function onBtnAddClick(){
+			console.log('add button is clicked');
+		}
+		function onLoad(){
+			var btnAdd = document.getElementById('btnAdd');
+			btnAdd.addEventListener('click', onBtnAddClick);
+
+			
+			ReactDOM.render(calc, document.getElementById('root'));
+		}*/}
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
