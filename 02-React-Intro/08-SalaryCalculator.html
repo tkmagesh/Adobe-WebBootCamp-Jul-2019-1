@@ -66,22 +66,13 @@
 		class SalaryCalculator extends React.Component{
 			render = () => {
 				let { model } = this.props,
-					data = model.getData(),
-					{ basic, hra, da, tax, salary } = data;
+					data = model.getData();
+					
 				return (
 					<section>
-						<div className="field">
-							<label htmlFor="">Basic :</label>
-							<input type="number" onChange={ evt => model.set('basic', evt.target.valueAsNumber)} />
-						</div>
-						<div className="field">
-							<label htmlFor="">HRA :</label>
-							<input type="number" onChange={ evt => model.set('hra', evt.target.valueAsNumber)}/>
-						</div>
-						<div className="field">
-							<label htmlFor="">DA :</label>
-							<input type="number" onChange={ evt => model.set('da', evt.target.valueAsNumber)}/>
-						</div>
+						<SalaryCalculatorInput />
+						<SalaryCalculatorInput />
+						<SalaryCalculatorInput />
 						<div className="field">
 							<label htmlFor="">Tax :</label>
 							<input type="range" min="0" max="30" defaultValue="0" onChange={ evt => model.set('tax', evt.target.valueAsNumber)}/>
@@ -89,20 +80,40 @@
 						<div className="field">
 							<input type="button" value="Calculate" onClick={ () => model.calculate() }/>
 						</div>
-						<div className="field">
-							<table>
-								<tbody>
-									<tr>
-										<td>{basic}</td>
-										<td>{hra}</td>
-										<td>{da}</td>
-										<td>{tax}</td>
-										<td>{salary}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<SalaryCalculatorResult {...data} />
 					</section>
+				)
+			}
+		}
+
+		class SalaryCalculatorInput extends React.Component{
+			render = () => {
+				return(
+					<div className="field">
+						<label htmlFor="">Basic :</label>
+						<input type="number" onChange={ evt => model.set('basic', evt.target.valueAsNumber)} />
+					</div>
+				)
+			}
+		}
+
+		class SalaryCalculatorResult extends React.Component{
+			render = () => {
+				let { basic, hra, da, tax, salary } = this.props;
+				return(
+					<div className="field">
+						<table>
+							<tbody>
+								<tr>
+									<td>{basic}</td>
+									<td>{hra}</td>
+									<td>{da}</td>
+									<td>{tax}</td>
+									<td>{salary}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				)
 			}
 		}
