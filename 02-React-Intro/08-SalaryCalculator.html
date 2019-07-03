@@ -13,37 +13,112 @@
 		label{
 			display: block;
 		}
-		#divSalary{
+		td{
+			padding-right : 10px;
 			font-size: 18pt;
 		}
+		
 	</style>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+		
+	<script type="text/babel">
+		class SalaryCalculatorModel {
+			_data = {
+				basic : 0,
+				hra : 0,
+				da : 0,
+				tax : 0,
+				salary : 0
+			};
+
+			subscribe(fn){
+				this.onChange = fn;
+			}
+
+			notifyChange(){
+				if (typeof this.onChange === 'function')
+					this.onChange();
+			}
+
+			get(attrName){
+				return this._data[attrName];
+			}
+
+			set(attrName, value){
+				if (this._data[attrName] === value) return;
+				this._data[attrName] = value;
+				this.notifyChange();
+			}
+
+			calculate(){
+				let gross = this.get('basic') + this.get('hra') + this.get('da');
+				let net = gross * ((100-this.get('tax'))/100);
+				this.set('salary', net);
+			}
+
+			getData(){
+				return this._data;
+			}
+		}
+
+		class SalaryCalculator extends React.Component{
+			render = () => {
+				let { model } = this.props,
+					data = model.getData(),
+					{ basic, hra, da, tax, salary } = data;
+				return (
+					<section>
+						<div className="field">
+							<label htmlFor="">Basic :</label>
+							<input type="number" onChange={ evt => model.set('basic', evt.target.valueAsNumber)} />
+						</div>
+						<div className="field">
+							<label htmlFor="">HRA :</label>
+							<input type="number" onChange={ evt => model.set('hra', evt.target.valueAsNumber)}/>
+						</div>
+						<div className="field">
+							<label htmlFor="">DA :</label>
+							<input type="number" onChange={ evt => model.set('da', evt.target.valueAsNumber)}/>
+						</div>
+						<div className="field">
+							<label htmlFor="">Tax :</label>
+							<input type="range" min="0" max="30" defaultValue="0" onChange={ evt => model.set('tax', evt.target.valueAsNumber)}/>
+						</div>
+						<div className="field">
+							<input type="button" value="Calculate" onClick={ () => model.calculate() }/>
+						</div>
+						<div className="field">
+							<table>
+								<tbody>
+									<tr>
+										<td>{basic}</td>
+										<td>{hra}</td>
+										<td>{da}</td>
+										<td>{tax}</td>
+										<td>{salary}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				)
+			}
+		}
+		
+		let model = new SalaryCalculatorModel();
+		function renderCalculator(){
+			ReactDOM.render(<SalaryCalculator model={model}/>,
+				document.getElementById('root'));
+		}
+		renderCalculator();
+		model.subscribe(renderCalculator);
+	</script>
 </head>
 <body>
 	<h1>Salary Calculator</h1>
 	<hr>
-	<section>
-		<div class="field">
-			<label for="">Basic :</label>
-			<input type="number" name="" id="">
-		</div>
-		<div class="field">
-			<label for="">HRA :</label>
-			<input type="number" name="" id="">
-		</div>
-		<div class="field">
-			<label for="">DA :</label>
-			<input type="number" name="" id="">
-		</div>
-		<div class="field">
-			<label for="">Tax :</label>
-			<input type="range" name="" id="" min="0" max="30" value="0">
-		</div>
-		<div class="field">
-			<input type="button" value="Calculate">
-		</div>
-		<div class="field">
-			<div id="divSalary">[Salary]</div>
-		</div>
-	</section>
+	<div id="root"></div>
 </body>
 </html>
