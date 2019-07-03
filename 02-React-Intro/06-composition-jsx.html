@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+	<style>
+		.positive{
+			color : green;
+		}
+		.negative{
+			color : red;
+		}
+	</style>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+
+		class Calculator extends React.Component{
+			
+			
+			state= { result : 0, n1 : 0, n2 : 0 };
+
+			setN1 = (x) => {
+				var n1 = x.target.valueAsNumber;
+				this.setState({ n1 : n1 });
+			}
+
+			setN2 = (evt) => {
+				var n2 = evt.target.valueAsNumber;
+				this.setState({ n2 : n2 });
+			}
+			onBtnAddClick = () => {
+				let {n1, n2} = this.state,
+					result = n1 + n2;
+				this.setState({ result : result });
+			}
+
+			onBtnSubtractClick = () => {
+				let {n1, n2} = this.state,
+					result = n1 - n2;
+				this.setState({ result : result });
+			}
+			render = () => {
+				return (
+					<div>
+						<h1>Calculator</h1>
+						<hr/>
+						<input type="number" onChange={this.setN1}/>
+						<input type="number" onChange={this.setN2}/>
+						<br/>
+						<input type="button" value="Add" onClick={this.onBtnAddClick}/>
+						<input type="button" value="Subtract" onClick={this.onBtnSubtractClick}/>
+						<input type="button" value="Multiply"/>
+						<input type="button" value="Divide"/>
+						<CalculatorResult data={this.state.result}/>
+					</div>
+				);
+			}
+		}
+
+		class CalculatorResult extends React.Component{
+			render (){
+				let { data } = this.props,
+					resultEle = data >= 0 ? (<div className="positive">{data}</div>) : (<div className="negative">{data}</div>);
+				return resultEle;
+			}
+		}
+
+		ReactDOM.render(React.createElement(Calculator),
+			document.getElementById('root'));
+
+		{/*window.addEventListener('load', onLoad);
+
+		function onBtnAddClick(){
+			console.log('add button is clicked');
+		}
+		function onLoad(){
+			var btnAdd = document.getElementById('btnAdd');
+			btnAdd.addEventListener('click', onBtnAddClick);
+
+			
+			ReactDOM.render(calc, document.getElementById('root'));
+		}*/}
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator</title>
+	<style>
+		.positive{
+			color : green;
+		}
+		.negative{
+			color : red;
+		}
+	</style>
+	<script src="react.development.js"></script>
+	<script src="react-dom.development.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+
+		//state & behavior
+		class CalculatorModel{
+			//state
+			n1 = 0;
+			n2 = 0;
+			result = 0;
+			onResultChange = null;
+
+			add(){
+				this.result = this.n1 + this.n2;
+				this.notfifyChange();
+			}
+
+			subtract(){
+				this.result = this.n1 - this.n2;
+				this.notfifyChange();
+			}
+
+			multiply(){
+				this.result = this.n1 * this.n2;
+				this.notfifyChange();
+			}
+
+			divide(){
+				this.result = this.n1 * this.n2;
+				this.notfifyChange();
+			}
+
+			notfifyChange(){
+				if (typeof this.onResultChange === 'function')
+					this.onResultChange();
+			}
+		}
+
+		class Calculator extends React.Component{
+
+			setN1 = (evt) => {
+				this.props.model.n1 = evt.target.valueAsNumber;
+			}
+
+			setN2 = (evt) => {
+				this.props.model.n2 = evt.target.valueAsNumber;
+			}
+
+			onBtnAddClick = () => {
+				this.props.model.add();
+			}
+
+			onBtnSubtractClick = () => {
+				this.props.model.subtract();
+			}
+			render = () => {
+				return (
+					<div>
+						<h1>Calculator</h1>
+						<hr/>
+						<input type="number" onChange={this.setN1}/>
+						<input type="number" onChange={this.setN2}/>
+						<br/>
+						<input type="button" value="Add" onClick={this.onBtnAddClick}/>
+						<input type="button" value="Subtract" onClick={this.onBtnSubtractClick}/>
+						<input type="button" value="Multiply"/>
+						<input type="button" value="Divide"/>
+						<CalculatorResult data={this.props.model.result}/>
+					</div>
+				);
+			}
+		}
+
+		class CalculatorResult extends React.Component{
+			render (){
+				let { data } = this.props,
+					resultEle = data >= 0 ? (<div className="positive">{data}</div>) : (<div className="negative">{data}</div>);
+				return resultEle;
+			}
+		}
+
+		var model= new CalculatorModel();
+
+		function renderCalculator(){
+			ReactDOM.render( <Calculator model={model} />,
+				document.getElementById('root'));
+		}
+		renderCalculator();
+		model.onResultChange = renderCalculator;
+		
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
