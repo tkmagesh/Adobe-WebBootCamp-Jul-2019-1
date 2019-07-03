@@ -9,15 +9,8 @@
 	<script type="text/babel">
 		class Products extends React.Component{
 			render =() => {
-				let productsNames = [ ];
-				/*
-				let productItems = [];
-				for(let index = 0, count = productsNames.length; index < count; index++){
-					let productItem = (<li key={index}>{productsNames[index]}</li>);
-					productItems.push(productItem);
-				}
-				*/
-				let productItems = productsNames.map((productName, index) => (<li key={index}>{productName}</li>));
+				let productsNames = [ 'Pen', 'Pencil' ];
+				
 				return (
 					<main>
 						<h1>Products</h1>
