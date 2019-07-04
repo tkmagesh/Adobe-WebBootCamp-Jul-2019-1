@@ -22,10 +22,14 @@
 			down(delta){
 				let action = { type : 'DOWN', payload : delta};
 				return action;	
+			},
+			doubleUp(delta){
+				let action = { type : 'UP', payload : 2 * delta};
+				return action;
 			}
 		};
 
-		function bindActionCreators(actionCreators, dispatch){
+		{/*function bindActionCreators(actionCreators, dispatch){
 			let actionDispatchers = {
 				up(delta){
 					let action = actionCreators.up(delta);
@@ -37,15 +41,20 @@
 				}
 			};
 			return actionDispatchers;
-		}
+		}*/}
+
+
 
 		var store = SM.createStore(spinnerReducer);
-		let spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, store.dispatch);
+		let spinnerActionDispatchers = SM.bindActionCreators(spinnerActionCreators, store.dispatch);
 
 		class Spinner extends React.Component{
 			state = { delta : 0 };
 			onUpClick = () => {
 				this.props.up(this.state.delta);
+			}
+			onDoubleUpClick = () => {
+				this.props.doubleUp(this.state.delta);
 			}
 			onDownClick = () => {
 				this.props.down(this.state.delta);
@@ -60,6 +69,7 @@
 						<input type="button" value="Decrement" onClick={this.onDownClick}/>
 						<span> [ {value} ] </span>
 						<input type="button" value="Increment" onClick={this.onUpClick}/>
+						<input type="button" value="Double Increment" onClick={this.onDoubleUpClick} />
 					</main>
 				)
 			}
