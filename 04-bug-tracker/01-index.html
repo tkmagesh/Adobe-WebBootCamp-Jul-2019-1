@@ -44,16 +44,61 @@
 	<script src="redux.js"></script>
 	<script type="text/babel">
 
-		
+		function bugsReducer(currentState = [], action){
+			if (action.type === 'ADD_NEW'){
+				let newBug = action.payload;
+				currentState.push(newBug);
+				return currentState;
+			}
+			if (action.type === 'UPDATE'){
+				let updatedBug = action.payload;
+				return currentState.map(bug => bug.id === updatedBug.id ? updatedBug : bug);
+			}
+			return currentState;
+		}
 
+		var currentBugId = 0;
+
+		var bugActionCreators = {
+			addNew(newBugName){
+				let newBug = {
+					id : ++currentBugId,
+					name : newBugName,
+					isClosed : false,
+					createdAt : new Date()
+				};
+				let action = { type : 'ADD_NEW', payload : newBug};
+				return action;
+			},
+			toggle(bug){
+				bug.isClosed = !bug.isClosed;
+				let action = { type : 'UPDATE', payload : bug};
+				return action;
+			}
+		}
+
+		var store = Redux.createStore(bugsReducer);
+		var bugActionDispatchers = Redux.bindActionCreators(bugActionCreators, store.dispatch);
+
+		class BugItem extends React.Component{
+			render = () => {
+				let { bug, toggle } = this.props;
+				return(
+					<li>
+						<span className="bugname" onClick={() => toggle(bug) }>
+							{bug.name}
+						</span>
+						<div>{bug.isClosed.toString()}</div>
+						<div className="datetime">{bug.createdAt.toString()}</div>
+					</li>
+				)
+			}
+		}
 		class BugTracker extends React.Component{
 			render = () => {
-				let { bugs } = this.props,
+				let { bugs, toggle } = this.props,
 					bugItems = bugs.map((bug, index) => (
-						<li key={index}>
-							<span className="bugname">{bug.name}</span>
-							<div className="datetime">{bug.createdAt.toString()}</div>
-						</li>
+						<BugItem bug={bug}  key={index} toggle={toggle}/>
 					));
 				return(
 					<>
