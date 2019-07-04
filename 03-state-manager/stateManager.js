@@ -1,7 +1,8 @@
 var SM = (function(){
 	var _currentState,
 		_subscribers = [],
-		_reducer;
+		_reducer,
+		_init_action = '@@INIT';
 
 	function getState(){
 		return _currentState;
@@ -12,7 +13,7 @@ var SM = (function(){
 	}
 
 	function triggerChange(){
-		_subscribers.forEach(subscriber => subscriber());
+		_subscribers.forEach(callback => callback());
 	}
 
 	function dispatch(action){
@@ -24,6 +25,7 @@ var SM = (function(){
 
 	function createStore(reducer){
 		_reducer = reducer;
+		_currentState = _reducer(undefined, _init_action)
 		var store = { getState, subscribe, dispatch };
 		return store;
 	}
