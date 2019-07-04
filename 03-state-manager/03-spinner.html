@@ -14,28 +14,39 @@
 			return currentState;
 		}
 
+		var spinnerActionCreators = {
+			up(delta){
+				let action = { type : 'UP', payload : delta};
+				return action;
+			},
+			down(delta){
+				let action = { type : 'DOWN', payload : delta};
+				return action;	
+			}
+		};
+
 		var store = SM.createStore(spinnerReducer)
 
 		class Spinner extends React.Component{
 			state = { delta : 0 };
 
 			render = () => {
-				let { value, dispatch } = this.props;
+				let { value, dispatch, actionCreators } = this.props;
 				return(
 					<main>
 						<label>Delta :</label>
 						<input type="number" onChange={ evt => this.setState({ delta : evt.target.valueAsNumber || 1 }) }/>
 						<br/>
-						<input type="button" value="Decrement" onClick={() => dispatch({ type : 'DOWN', payload : this.state.delta})}/>
+						<input type="button" value="Decrement" onClick={() => dispatch( actionCreators.down(this.state.delta) )}/>
 						<span> [ {value} ] </span>
-						<input type="button" value="Increment" onClick={() => dispatch({ type : 'UP', payload : this.state.delta})}/>
+						<input type="button" value="Increment" onClick={() => dispatch( actionCreators.up(this.state.delta) )}/>
 					</main>
 				)
 			}
 		}
 
 		function renderApp(){
-			ReactDOM.render(<Spinner value={store.getState()} dispatch={store.dispatch} />,
+			ReactDOM.render(<Spinner value={store.getState()} dispatch={store.dispatch} actionCreators={spinnerActionCreators} />,
 				document.getElementById('root'));
 		}
 		store.subscribe(renderApp);
