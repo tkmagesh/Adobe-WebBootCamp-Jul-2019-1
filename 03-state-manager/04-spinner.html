@@ -25,17 +25,30 @@
 			}
 		};
 
-		var store = SM.createStore(spinnerReducer)
+		function bindActionCreators(actionCreators, dispatch){
+			let actionDispatchers = {
+				up(delta){
+					let action = actionCreators.up(delta);
+					dispatch(action);
+				},
+				down(delta){
+					let action = actionCreators.down(delta);
+					dispatch(action);	
+				}
+			};
+			return actionDispatchers;
+		}
+
+		var store = SM.createStore(spinnerReducer);
+		let spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, store.dispatch);
 
 		class Spinner extends React.Component{
 			state = { delta : 0 };
 			onUpClick = () => {
-				let action = this.props.up(this.state.delta);
-				this.pros.dispatch( action );
+				this.props.up(this.state.delta);
 			}
 			onDownClick = () => {
-				let action = this.props.down(this.state.delta);
-				this.pros.dispatch( action );
+				this.props.down(this.state.delta);
 			}
 			render = () => {
 				let { value } = this.props;
@@ -53,7 +66,7 @@
 		}
 
 		function renderApp(){
-			ReactDOM.render(<Spinner value={store.getState()} dispatch={store.dispatch} {...spinnerActionCreators} />,
+			ReactDOM.render(<Spinner value={store.getState()} {...spinnerActionDispatchers} />,
 				document.getElementById('root'));
 		}
 		store.subscribe(renderApp);
