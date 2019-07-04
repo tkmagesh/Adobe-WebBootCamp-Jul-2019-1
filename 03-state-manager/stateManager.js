@@ -2,7 +2,7 @@ var SM = (function(){
 	var _currentState,
 		_subscribers = [],
 		_reducer,
-		_init_action = '@@INIT';
+		_init_action = { type : '@@INIT' };
 
 	function getState(){
 		return _currentState;
