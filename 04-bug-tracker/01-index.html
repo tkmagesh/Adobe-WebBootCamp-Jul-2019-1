@@ -54,6 +54,7 @@
 				let updatedBug = action.payload;
 				return currentState.map(bug => bug.id === updatedBug.id ? updatedBug : bug);
 			}
+
 			return currentState;
 		}
 
@@ -73,6 +74,11 @@
 			toggle(bug){
 				bug.isClosed = !bug.isClosed;
 				let action = { type : 'UPDATE', payload : bug};
+				return action;
+			},
+			removeClosed(bugs){
+				let closedBugs = /**/;
+				let action = { type : 'REMOVE_ALL', payload : closedBugs};
 				return action;
 			}
 		}
@@ -102,11 +108,14 @@
 					));
 				return(
 					<>
+						{/* BugStats */}
 						<section className="stats">
 							<span className="closed">1</span>
 							<span> / </span>
 							<span>{this.props.bugs.length}</span>
 						</section>
+
+						{/* BugSort */}
 						<section className="sort">
 							<label htmlFor="">Order By :</label>
 							<select name="" id="">
@@ -116,11 +125,15 @@
 							<label htmlFor="">Descending ? :</label>
 							<input type="checkbox" name="" id="" />
 						</section>
+
+						{/* BugEdit */}
 						<section className="edit">
 							<label htmlFor="">Bug Name :</label>
 							<input type="text" name="" id="" />
 							<input type="button" value="Add New" />
 						</section>
+						
+						{/* BugList */}
 						<section className="list">
 							<ol>
 								{bugItems}
