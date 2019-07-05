@@ -11,6 +11,14 @@ import Spinner from './spinner';
 
 import { Provider } from 'react-redux'
 
+
+import axios from 'axios';
+
+var p = axios.get('http://localhost:3030/bugs');
+p.then(function(response){
+	console.table(response.data);
+});
+
 	ReactDOM.render(
 		<Provider store={appStore}>
 			<>

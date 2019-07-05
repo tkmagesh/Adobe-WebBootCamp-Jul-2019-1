@@ -1,0 +1,13 @@
+Add New
+	post('http://localhsot:3030/bugs', bugData)
+
+Update
+	put('http://localhsot:3030/bugs/123445', bugData)
+
+Delete
+	delete('http://localhsot:3030/bugs/123445')
+
+
+npm install json-server -g
+
+json-server <filename> -p 3030
