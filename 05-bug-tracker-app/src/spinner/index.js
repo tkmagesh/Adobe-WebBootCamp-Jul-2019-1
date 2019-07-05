@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 export function spinnerReducer(currentState = 0, action){
 	if (action.type === 'UP') return currentState + action.payload;
@@ -21,7 +23,7 @@ export var spinnerActionCreators = {
 	}
 };
 
-export class Spinner extends Component{
+class Spinner extends Component{
 	state = { delta : 0 };
 	onUpClick = () => {
 		this.props.up(this.state.delta);
@@ -47,3 +49,23 @@ export class Spinner extends Component{
 		)
 	}
 }
+
+function mapDispatchToProps(dispatch){
+	let spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, dispatch);
+	return spinnerActionDispatchers;
+}
+
+function mapStateToProps(storeState){
+	var spinnerValue = storeState.spinnerData;
+	return { value : spinnerValue };	
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Spinner);
+
+
+
+
+
