@@ -111,49 +111,84 @@
 				)
 			}
 		}
-		class BugTracker extends React.Component{
+		class BugStats extends React.Component{
+			render = () => {
+				let { bugs } = this.props,
+					closedCount = bugs.reduce((result, bug) => bug.isClosed ? ++result : result , 0);
+				return(
+					<section className="stats">
+						<span className="closed">{closedCount}</span>
+						<span> / </span>
+						<span>{bugs.length}</span>
+					</section>
+				);
+			}
+		}
+
+		class BugSort extends React.Component{
+			render(){
+				return(
+					<section className="sort">
+						<label htmlFor="">Order By :</label>
+						<select name="" id="">
+							<option value=""></option>
+							<option value=""></option>
+						</select>
+						<label htmlFor="">Descending ? :</label>
+						<input type="checkbox" name="" id="" />
+					</section>
+				)
+			}
+		}
+
+		class BugEdit extends React.Component{
 			state = { newBugName : ''};
 			render = () => {
-				let { bugs, toggle,removeClosed, addNew } = this.props,
+				let { addNew } = this.props,
+					{ newBugName } = this.state;
+				return(
+					<section className="edit">
+						<label htmlFor="">Bug Name :</label>
+						<input type="text" onChange = { evt => this.setState({newBugName : evt.target.value})} />
+						<input type="button" value="Add New" onClick={ () => addNew(newBugName) }/>
+					</section>
+				)
+			}
+		}
+
+		class BugList extends React.Component{
+
+			render = () => {
+				let { bugs, toggle, removeClosed } = this.props,
 					bugItems = bugs.map((bug, index) => (
 						<BugItem bug={bug}  key={index} toggle={toggle}/>
-					)),
-					{ newBugName } = this.state,
-					closedCount = bugs.reduce((result, bug) => bug.isClosed ? ++result : result , 0);
+					));
+				return(
+					<section className="list">
+						<ol>
+							{bugItems}
+						</ol>
+						<input type="button" value="Remove Closed" onClick={() => removeClosed(bugs)}/>
+					</section>
+				)
+			}
+		}
+		class BugTracker extends React.Component{
+			render = () => {
+				let { bugs, toggle,removeClosed, addNew } = this.props;
 				return(
 					<>
 						{/* BugStats */}
-						<section className="stats">
-							<span className="closed">{closedCount}</span>
-							<span> / </span>
-							<span>{this.props.bugs.length}</span>
-						</section>
+						<BugStats bugs={bugs} />
 
 						{/* BugSort */}
-						<section className="sort">
-							<label htmlFor="">Order By :</label>
-							<select name="" id="">
-								<option value=""></option>
-								<option value=""></option>
-							</select>
-							<label htmlFor="">Descending ? :</label>
-							<input type="checkbox" name="" id="" />
-						</section>
+						<BugSort />
 
 						{/* BugEdit */}
-						<section className="edit">
-							<label htmlFor="">Bug Name :</label>
-							<input type="text" onChange = { evt => this.setState({newBugName : evt.target.value})} />
-							<input type="button" value="Add New" onClick={ () => addNew(newBugName) }/>
-						</section>
+						<BugEdit addNew={addNew} />
 						
 						{/* BugList */}
-						<section className="list">
-							<ol>
-								{bugItems}
-							</ol>
-							<input type="button" value="Remove Closed" onClick={() => removeClosed(bugs)}/>
-						</section>
+						<BugList {...{toggle, removeClosed, bugs}} />
 					</>
 				)
 			}
