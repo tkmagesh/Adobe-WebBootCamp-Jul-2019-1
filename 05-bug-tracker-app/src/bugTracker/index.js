@@ -28,9 +28,8 @@ function mapDispatchToProps(dispatch){
 	return bugActionDispatchers;
 }
 
-function mapStateToProps(storeState){
-	var bugs = storeState.bugsData;
-	console.log(bugs);
+function mapStateToProps({ bugsData, spinnerData }){
+	let bugs = bugsData.filter((bug, index) => index % 2 === spinnerData % 2);
 	return { bugs : bugs };
 }
 

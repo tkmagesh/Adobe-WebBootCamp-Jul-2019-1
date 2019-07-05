@@ -11,12 +11,6 @@ import Spinner from './spinner';
 
 import { Provider } from 'react-redux'
 
-
-
-
-
-
-
 	ReactDOM.render(
 		<Provider store={appStore}>
 			<>
