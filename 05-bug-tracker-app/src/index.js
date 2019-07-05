@@ -6,14 +6,28 @@ import * as serviceWorker from './serviceWorker';
 import { bindActionCreators } from 'redux';
 
 import * as bugActionCreators from './bugTracker/actions';
+import { spinnerActionCreators } from './spinner';
+
 import appStore from './store';
+
 import BugTracker from './bugTracker';
+import { Spinner } from './spinner';
+
 
 var bugActionDispatchers = bindActionCreators(bugActionCreators, appStore.dispatch);
+let spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, appStore.dispatch);
 
 function renderApp(){
-	let bugs = appStore.getState();
-	ReactDOM.render(<BugTracker bugs={bugs} {...bugActionDispatchers} />,
+	let storeState = appStore.getState(),
+		bugs = storeState.bugsData,
+		spinnerValue = storeState.spinnerData;
+
+	ReactDOM.render(
+		<>
+			<Spinner value={spinnerValue} {...spinnerActionDispatchers}/>
+			<hr/>
+			<BugTracker bugs={bugs} {...bugActionDispatchers} />
+		</>,
 		document.getElementById('root'));
 }
 renderApp();

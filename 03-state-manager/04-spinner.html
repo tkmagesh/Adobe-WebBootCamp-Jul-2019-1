@@ -46,6 +46,7 @@
 
 
 		var store = SM.createStore(spinnerReducer);
+		
 		let spinnerActionDispatchers = SM.bindActionCreators(spinnerActionCreators, store.dispatch);
 
 		class Spinner extends React.Component{
