@@ -11,16 +11,28 @@ import Spinner from './spinner';
 
 import { Provider } from 'react-redux'
 
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-	ReactDOM.render(
-		<Provider store={appStore}>
-			<>
-				<Spinner/>
-				<hr/>
-				<BugTracker/>
-			</>
-		</Provider>,
-		document.getElementById('root'));
+function Home(){
+	return (<h1> My App </h1>);
+}
+ReactDOM.render(
+	<Provider store={appStore}>
+		<Router>
+			<React.Fragment>
+				<div>
+					<span> <Link to="/">Home</Link> </span>
+					<span> <Link to="/spinner/"> Spinner </Link></span>
+					<span> <Link to="/bugs/"> Bug Tracker </Link></span>
+				</div>
+				<Route path="/" exact component={Home}/>
+				<Route path="/spinner/" exact component={Spinner}/>
+				<Route path="/bugs/" exact component={BugTracker}/>
+			</React.Fragment>
+		</Router>
+	</Provider>,
+	document.getElementById('root'));
+
 
 
 

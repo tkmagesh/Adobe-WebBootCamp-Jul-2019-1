@@ -17,6 +17,12 @@
       "name": "Bug - 3",
       "isClosed": false,
       "createdAt": "2019-07-06T09:31:59.513Z"
+    },
+    {
+      "id": 6,
+      "name": "Bug - 2",
+      "isClosed": false,
+      "createdAt": "2019-07-06T10:36:26.558Z"
     }
   ],
   "projects": [
