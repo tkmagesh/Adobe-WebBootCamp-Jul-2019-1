@@ -14,6 +14,11 @@ function bugsReducer(currentState = [], action){
 		let newState = currentState.filter(bug => bugsToRemove.indexOf(bug) === -1);
 		return newState;
 	}
+	if (action.type === 'REMOVE'){
+		let bugToRemove = action.payload;
+		let newState = currentState.filter(bug => bug.id !== bugToRemove.id);
+		return newState;
+	}
 	if (action.type === 'LOAD'){
 		return action.payload;
 	}

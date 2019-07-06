@@ -1,5 +1,7 @@
-import axios from 'axios';
 
+import { getAll } from '../services/bugApi';
+
+/*
 function getExistingData(){
 	var data = [
 		{
@@ -14,7 +16,7 @@ function getExistingData(){
 }
 
 //Sync
-/*export function load(){
+export function load(){
 	let data = getExistingData()
 	let action = { type : 'LOAD', payload : data};
 	return action;	
@@ -22,10 +24,9 @@ function getExistingData(){
 
 export function load(){
 	return function(dispatch){
-		var promise = axios.get('http://localhost:3030/bugs');
-		promise.then(function(response){
-			var data = response.data;
-			let action = { type : 'LOAD', payload : data};
+		getAll()
+		.then(bugs => {
+			let action = { type : 'LOAD', payload : bugs};
 			dispatch(action);
 		});
 	}

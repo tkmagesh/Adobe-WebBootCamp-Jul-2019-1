@@ -1,5 +1,13 @@
-export function toggle(bug){
-	bug.isClosed = !bug.isClosed;
-	let action = { type : 'UPDATE', payload : bug};
-	return action;
+import { save } from '../services/bugApi';
+
+export function toggle(bugData){
+	return function(dispatch){
+		bugData.isClosed = !bugData.isClosed;
+		save(bugData)
+			.then(toggledBug => {
+				let action = { type : 'UPDATE', payload : toggledBug};
+				dispatch(action);
+			})
+	}
 }
+		
